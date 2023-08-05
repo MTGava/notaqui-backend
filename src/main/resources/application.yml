@@ -1,0 +1,20 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database: oracle
+    show-sql: true
+
+notaqui:
+  backing-services:
+    database:
+      url: jdbc:oracle:thin:@oracle.fiap.com.br:1521:orcl
+      driverClassName: oracle.jdbc.driver.OracleDriver
+      username: ${USERNAME}
+      password: ${PASSWORD}
+      max-pool-size: 2
+
+server:
+  port: 8080
+  servlet:
+    context-path: /notaqui
