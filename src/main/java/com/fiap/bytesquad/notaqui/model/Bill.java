@@ -1,6 +1,5 @@
 package com.fiap.bytesquad.notaqui.model;
 
-import com.fiap.bytesquad.notaqui.model.dto.BillDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -38,7 +37,7 @@ public class Bill {
     private BigDecimal value;
 
     @Column(name = "chave", nullable = false)
-    private Integer accessKey;
+    private String accessKey;
 
     @Column(name = "arquivo", nullable = true)
     private String archive;
@@ -47,12 +46,6 @@ public class Bill {
     private String extension;
 
     @ManyToOne
-    @JoinColumn(name = "id_usuario", nullable = false)
+    @JoinColumn(name = "matricula", nullable = false)
     private User user;
-
-    public Bill(BillDTO billDTO) {
-        this.cnpj = billDTO.getCnpj();
-        this.value = billDTO.getValue();
-        this.accessKey = billDTO.getAccessKey();
-    }
 }

@@ -11,17 +11,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/compras")
 @Slf4j
-public class NotaquiController {
+public class BillController {
 
     @Autowired private BillService service;
 
-    @PostMapping("/save")
-    public ResponseEntity<BillDTO> save(@RequestBody BillDTO billDTO) {
-        log.info("|| Start Controller - save");
-        return new ResponseEntity<>(service.saveBill(billDTO), HttpStatus.CREATED);
+    @PostMapping("/cadastrar")
+    public ResponseEntity<BillDTO> save(@RequestBody @Valid BillDTO billDTO) {
+        log.info("|| Iniciando billController - cadastrar compra");
+        return new ResponseEntity<>(service.save(billDTO), HttpStatus.CREATED);
     }
 
 //    @PostMapping("/usuario/cadastrar")

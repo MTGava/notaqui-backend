@@ -4,5 +4,5 @@ import com.fiap.bytesquad.notaqui.model.dto.BillDTO;
 
 public interface BillService {
 
-    BillDTO saveBill(BillDTO billDTO);
+    BillDTO save(BillDTO dto);
 }

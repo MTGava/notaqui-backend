@@ -25,7 +25,7 @@ public class UserController {
 
     @PostMapping("/cadastrar")
     public ResponseEntity<UserDTO> save(@RequestBody @Valid UserDTO userDTO) {
-        log.info("|| Iniciando controller - cadastrar usuário");
+        log.info("|| Iniciando userController - cadastrar usuário");
         return new ResponseEntity<>(service.save(userDTO), HttpStatus.CREATED);
     }
 

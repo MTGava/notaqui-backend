@@ -6,6 +6,7 @@ import com.fiap.bytesquad.notaqui.repository.BillRepository;
 import com.fiap.bytesquad.notaqui.repository.NotaquiRepository;
 import com.fiap.bytesquad.notaqui.repository.UserRepository;
 import com.fiap.bytesquad.notaqui.service.BillService;
+import com.fiap.bytesquad.notaqui.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,14 @@ public class BillServiceImpl implements BillService {
 
     @Autowired private NotaquiRepository repository;
     @Autowired private BillRepository billRepository;
-    @Autowired private UserRepository userRepository;
+    @Autowired private UserService userService;
 
     @Override
-    public BillDTO saveBill(BillDTO billDTO) {
-        log.info("|| Start service - NotaquiServiceImpl");
-        Bill bill = new Bill(billDTO);
-        repository.save(bill);
-        log.info("|| Save into BD");
-        return new BillDTO();
+    public BillDTO save(BillDTO dto) {
+        log.info("|| Iniciando billService - cadastrar compra");
+        Bill bill = newBill(dto);
+        bill = repository.save(bill);
+        return new BillDTO(bill);
     }
 
     private Bill newBill(BillDTO dto) {
@@ -34,7 +34,7 @@ public class BillServiceImpl implements BillService {
         bill.setAccessKey(dto.getAccessKey());
         bill.setArchive(dto.getAttatchment() != null ? dto.getAttatchment().getArchive() : null);
         bill.setExtension(dto.getAttatchment() != null ? dto.getAttatchment().getExtension() : null);
-//        bill.setUser();
+        bill.setUser(userService.findByLogin(dto.getLogin()));
         return bill;
     }
 }

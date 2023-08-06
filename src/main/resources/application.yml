@@ -15,7 +15,7 @@ notaqui:
       max-pool-size: 2
     google-cloud:
       url: https://vision.googleapis.com/v1/images:annotate
-      api-key: AIzaSyDygvGEh508kmhoQI4xpwMX0UnIR9MKJ00
+      api-key: ${API_KEY}
 
 server:
   port: 8080
