@@ -1,16 +1,14 @@
 package com.fiap.bytesquad.notaqui.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fiap.bytesquad.notaqui.model.Bill;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.br.CNPJ;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -22,15 +20,23 @@ import java.math.BigDecimal;
 public class BillDTO implements Serializable {
     private static final long serialVersionUID = -1L;
 
+    @CNPJ
+    @JsonProperty("cnpj")
     private String cnpj;
 
+    @JsonProperty("valor")
     private BigDecimal value;
 
+    @JsonProperty("chaveAcesso")
     private Integer accessKey;
 
-    public BillDTO(Bill bill) {
-        this.cnpj = bill.getCnpj();
-        this.value = bill.getValue();
-        this.accessKey = bill.getAccessKey();
-    }
+
+    @JsonProperty("anexo")
+    private AttatchmentDTO attatchment;
+
+//    public BillDTO(Bill bill) {
+//        this.cnpj = bill.getCnpj();
+//        this.value = bill.getValue();
+//        this.accessKey = bill.getAccessKey();
+//    }
 }

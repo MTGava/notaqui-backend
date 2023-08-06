@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
 
@@ -26,17 +28,27 @@ public class Bill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_conta")
+    @Column(name = "id_conta", nullable = false)
     private Integer id;
 
-    @Column(name = "cnpj")
+    @Column(name = "cnpj", nullable = false)
     private String cnpj;
 
-    @Column(name = "valor")
+    @Column(name = "valor", nullable = false)
     private BigDecimal value;
 
-    @Column(name = "ch_acesso")
+    @Column(name = "chave", nullable = false)
     private Integer accessKey;
+
+    @Column(name = "arquivo", nullable = true)
+    private String archive;
+
+    @Column(name = "extensao", nullable = true)
+    private String extension;
+
+    @ManyToOne
+    @JoinColumn(name = "id_usuario", nullable = false)
+    private User user;
 
     public Bill(BillDTO billDTO) {
         this.cnpj = billDTO.getCnpj();

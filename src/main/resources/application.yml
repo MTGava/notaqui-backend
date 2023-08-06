@@ -1,7 +1,7 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     database: oracle
     show-sql: true
 
@@ -13,8 +13,11 @@ notaqui:
       username: ${USERNAME}
       password: ${PASSWORD}
       max-pool-size: 2
+    google-cloud:
+      url: https://vision.googleapis.com/v1/images:annotate
+      api-key: AIzaSyDygvGEh508kmhoQI4xpwMX0UnIR9MKJ00
 
 server:
   port: 8080
   servlet:
-    context-path: /notaqui
+    context-path: /notaqui/api/v1
