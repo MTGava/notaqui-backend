@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Entity
 @Table(name = "TB_EMPRESAS")
-public class Companies {
+public class Company {
 
     @Id
     @Column(name = "cnpj")
@@ -28,11 +28,5 @@ public class Companies {
     private String corporateName;
 
     @Column(name = "nat_juridica")
-    private Integer legalNature;
-
-//    public Companies(BillDTO billDTO) {
-//        this.cnpj = billDTO.getCnpj();
-//        this.value = billDTO.getValue();
-//        this.accessKey = billDTO.getAccessKey();
-//    }
+    private String legalNature;
 }
