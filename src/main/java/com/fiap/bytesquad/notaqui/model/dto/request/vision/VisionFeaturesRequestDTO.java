@@ -1,4 +1,4 @@
-package com.fiap.bytesquad.notaqui.model.dto.request;
+package com.fiap.bytesquad.notaqui.model.dto.request.vision;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

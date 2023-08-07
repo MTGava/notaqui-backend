@@ -1,4 +1,4 @@
-package com.fiap.bytesquad.notaqui.model.dto.request;
+package com.fiap.bytesquad.notaqui.model.dto.request.vision;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,9 +14,8 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestObjectDTO implements Serializable {
+public class VisionRequestDTO implements Serializable {
     private static final long serialVersionUID = -1L;
 
-    private VisionImageRequestDTO image;
-    private List<VisionFeaturesRequestDTO> features;
+    private List<RequestObjectDTO> requests;
 }

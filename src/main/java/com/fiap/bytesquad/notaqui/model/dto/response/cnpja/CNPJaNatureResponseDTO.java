@@ -1,4 +1,4 @@
-package com.fiap.bytesquad.notaqui.model.dto.response;
+package com.fiap.bytesquad.notaqui.model.dto.response.cnpja;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -15,7 +15,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class VisionTextAnnotationResponseDTO implements Serializable {
+public class CNPJaNatureResponseDTO implements Serializable {
     private static final long serialVersionUID = -1L;
 
     private String text;

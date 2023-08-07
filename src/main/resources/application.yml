@@ -16,6 +16,9 @@ notaqui:
     google-cloud:
       url: https://vision.googleapis.com/v1/images:annotate
       api-key: ${API_KEY}
+    cnpj-ja:
+      url: https://api.cnpja.com/office/
+      token: ${TOKEN}
 
 server:
   port: 8080

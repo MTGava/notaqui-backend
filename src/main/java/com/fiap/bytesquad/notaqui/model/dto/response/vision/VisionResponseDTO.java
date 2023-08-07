@@ -1,7 +1,6 @@
-package com.fiap.bytesquad.notaqui.model.dto.response;
+package com.fiap.bytesquad.notaqui.model.dto.response.vision;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fiap.bytesquad.notaqui.model.dto.request.RequestObjectDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

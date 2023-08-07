@@ -1,8 +1,7 @@
-package com.fiap.bytesquad.notaqui.model.dto.response;
+package com.fiap.bytesquad.notaqui.model.dto.response.vision;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fiap.bytesquad.notaqui.model.dto.request.VisionFeaturesRequestDTO;
-import com.fiap.bytesquad.notaqui.model.dto.request.VisionImageRequestDTO;
+import com.fiap.bytesquad.notaqui.model.dto.response.vision.VisionTextAnnotationResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Builder
 @Getter
