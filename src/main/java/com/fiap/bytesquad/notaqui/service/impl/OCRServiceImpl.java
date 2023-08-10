@@ -52,7 +52,7 @@ public class OCRServiceImpl implements OCRService {
 
         String content = response.getBody() != null ? response.getBody().getResponses().get(0).getFullTextAnnotation().getText() : "No content";
         OCRResponseDTO responseDTO = OCRResponseDTO.builder().content(content).build();
-        consultCNPJ(responseDTO);
+//        consultCNPJ(responseDTO);
         return responseDTO;
     }
 
