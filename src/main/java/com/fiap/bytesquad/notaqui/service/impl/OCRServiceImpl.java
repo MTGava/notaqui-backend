@@ -1,13 +1,13 @@
 package com.fiap.bytesquad.notaqui.service.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiap.bytesquad.notaqui.model.dto.request.OCRRequestDTO;
 import com.fiap.bytesquad.notaqui.model.dto.request.vision.RequestObjectDTO;
 import com.fiap.bytesquad.notaqui.model.dto.request.vision.VisionFeaturesRequestDTO;
 import com.fiap.bytesquad.notaqui.model.dto.request.vision.VisionImageRequestDTO;
 import com.fiap.bytesquad.notaqui.model.dto.request.vision.VisionRequestDTO;
 import com.fiap.bytesquad.notaqui.model.dto.response.OCRResponseDTO;
+import com.fiap.bytesquad.notaqui.model.dto.response.cnpja.CNPJResponseDTO;
 import com.fiap.bytesquad.notaqui.model.dto.response.vision.VisionResponseDTO;
 import com.fiap.bytesquad.notaqui.service.CNPJService;
 import com.fiap.bytesquad.notaqui.service.OCRService;
@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Slf4j
@@ -38,7 +39,7 @@ public class OCRServiceImpl implements OCRService {
     private String apiKey;
 
     @Override
-    public OCRResponseDTO identify(OCRRequestDTO dto) throws JsonProcessingException {
+    public CNPJResponseDTO identify(OCRRequestDTO dto) throws JsonProcessingException {
         log.info("|| Iniciando ocrService - identificar conteúdo");
         List<RequestObjectDTO> objectDTOList = new ArrayList<>();
         objectDTOList.add(RequestObjectDTO.builder()
@@ -52,18 +53,18 @@ public class OCRServiceImpl implements OCRService {
 
         String content = response.getBody() != null ? response.getBody().getResponses().get(0).getFullTextAnnotation().getText() : "No content";
         OCRResponseDTO responseDTO = OCRResponseDTO.builder().content(content).build();
-//        consultCNPJ(responseDTO);
-        return responseDTO;
+        return consultCNPJ(responseDTO);
     }
 
-    void consultCNPJ(OCRResponseDTO responseDTO) {
+    CNPJResponseDTO consultCNPJ(OCRResponseDTO responseDTO) {
         List<String> strings = List.of(responseDTO.getContent().split("\n"));
-        String cnpj = "";
+        AtomicReference<CNPJResponseDTO> cnpjResponseDTO = new AtomicReference<>(new CNPJResponseDTO());
         strings.forEach(s ->
                 {
                     if(s.toLowerCase().contains("cnpj")) {
-                        cnpjService.consult(cnpj);
+                        cnpjResponseDTO.set(cnpjService.consult(s.substring(5)));
                     }
                 });
+        return cnpjResponseDTO.get();
     }
 }

@@ -38,9 +38,15 @@ public class CompanyDTO implements Serializable {
     @JsonProperty("naturezaJuridica")
     private String legalNature;
 
+    @Size(max = 400, message = "Limite máximo de caracteres ultrapassado")
+    @NotNull(message = "Tipo de empresa precisa ser preenchida!")
+    @JsonProperty("tipoEmpresa")
+    private String corporateType;
+
     public CompanyDTO(Company company) {
         this.cnpj = company.getCnpj();
         this.corporateName = company.getCorporateName();
         this.legalNature = company.getLegalNature();
+        this.corporateType = company.getCorporateType();
     }
 }

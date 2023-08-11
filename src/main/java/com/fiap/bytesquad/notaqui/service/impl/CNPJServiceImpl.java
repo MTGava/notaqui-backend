@@ -1,12 +1,15 @@
 package com.fiap.bytesquad.notaqui.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiap.bytesquad.notaqui.model.dto.response.cnpja.CNPJResponseDTO;
 import com.fiap.bytesquad.notaqui.model.dto.response.cnpja.CNPJaResponseDTO;
 import com.fiap.bytesquad.notaqui.service.CNPJService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -25,19 +28,28 @@ public class CNPJServiceImpl implements CNPJService {
 
     @Override
     public CNPJResponseDTO consult(String cnpj) {
+        log.info("|| Iniciando cnpjService - consultar CNPJ");
+        log.info("|| CNPJ: {}", cnpj);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", token);
+        HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
 
-        ResponseEntity<CNPJaResponseDTO> response = restTemplate.getForEntity(url.concat(cnpj), CNPJaResponseDTO.class, headers);
+        String urlFinal = url.concat(formatCNPJ(cnpj));
+        log.info("|| Request URI: {}", urlFinal);
+
+        ResponseEntity<CNPJaResponseDTO> response = restTemplate.exchange(urlFinal, HttpMethod.GET, entity, CNPJaResponseDTO.class);
 
         CNPJaResponseDTO responseDTO = response.getBody();
-        CNPJResponseDTO responseDTO1 = CNPJResponseDTO.builder()
+
+        return CNPJResponseDTO.builder()
                 .cnpj(cnpj)
                 .corporateName(responseDTO != null ? responseDTO.getCompany().getName() : "")
                 .legalNature(responseDTO != null ? responseDTO.getCompany().getNature().getText() : "")
                 .corporateType(responseDTO != null ? responseDTO.getMainActivity().getText() : "")
                 .build();
-        log.info("\n\n\n\n{}\n\n\n", responseDTO1);
-        return responseDTO1;
+    }
+
+    private String formatCNPJ(String cnpj) {
+        return cnpj.replace(".", "").replace("/", "").replace("-", "");
     }
 }

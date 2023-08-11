@@ -2,7 +2,6 @@ package com.fiap.bytesquad.notaqui.service.impl;
 
 import com.fiap.bytesquad.notaqui.exceptions.ObjectNotFoundException;
 import com.fiap.bytesquad.notaqui.model.Company;
-import com.fiap.bytesquad.notaqui.model.User;
 import com.fiap.bytesquad.notaqui.model.dto.CompanyDTO;
 import com.fiap.bytesquad.notaqui.repository.CompanyRepository;
 import com.fiap.bytesquad.notaqui.service.CompanyService;
@@ -44,12 +43,12 @@ public class CompanyServiceImpl implements CompanyService {
         return company.orElseThrow(() -> new ObjectNotFoundException("Empresa com o CNPJ: " + company + " não encontrada!"));
     }
 
-
     private Company newCompany(CompanyDTO dto) {
-        Company companie = new Company();
-        companie.setCnpj(dto.getCnpj());
-        companie.setLegalNature(dto.getLegalNature());
-        companie.setCorporateName(dto.getCorporateName());
-        return companie;
+        Company company = new Company();
+        company.setCnpj(dto.getCnpj());
+        company.setLegalNature(dto.getLegalNature());
+        company.setCorporateName(dto.getCorporateName());
+        company.setCorporateType(dto.getCorporateType());
+        return company;
     }
 }

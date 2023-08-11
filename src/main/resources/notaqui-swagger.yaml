@@ -34,7 +34,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OCRRequest'
+              $ref: '#/components/schemas/OCRRequestDTO'
     
         required: true
       responses:
@@ -43,7 +43,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OCRResponse'
+                $ref: '#/components/schemas/CNPJResponseDTO'
         '400':
           description: Bad Request
         '404':
@@ -52,16 +52,24 @@ paths:
           description: Internal Server Error
 components:
   schemas:
-    OCRRequest:
+    OCRRequestDTO:
       type: object
       properties:
         conteudo:
           type: string
           example: 'conteudo em base 64'
-    OCRResponse:
+    CNPJResponseDTO:
       type: object
       properties:
-        conteudo:
+        cnpj:
           type: string
-          example: 'conteudo em base 64'
-  
+          example: '01.234.567/8901-23'
+        razaoSocial:
+          type: string
+          example: 'BYTESQUAD S/A'
+        naturezaJuridica:
+          type: string
+          example: 'SOCIEDADE ANONIMA'
+        tipoEmpresa:
+          type: string
+          example: 'ESTUDANTES AMIGOS'

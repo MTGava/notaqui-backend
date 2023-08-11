@@ -30,4 +30,7 @@ public class Company {
 
     @Column(name = "nat_juridica")
     private String legalNature;
+
+    @Column(name = "tipo_empresa")
+    private String corporateType;
 }
