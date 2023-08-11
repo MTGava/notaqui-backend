@@ -61,7 +61,9 @@ public class OCRServiceImpl implements OCRService {
         AtomicReference<CNPJResponseDTO> cnpjResponseDTO = new AtomicReference<>(new CNPJResponseDTO());
         strings.forEach(s ->
                 {
-                    if(s.toLowerCase().contains("cnpj")) {
+                    if(s.toLowerCase().contains("cnpj")
+                            && !s.toLowerCase().contains("cpf")
+                            && !s.toLowerCase().contains("consumidor")) {
                         cnpjResponseDTO.set(cnpjService.consult(s.substring(5)));
                     }
                 });
