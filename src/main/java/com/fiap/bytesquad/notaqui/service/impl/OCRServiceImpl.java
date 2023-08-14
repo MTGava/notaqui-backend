@@ -97,7 +97,7 @@ public class OCRServiceImpl implements OCRService {
             if (s.toLowerCase().startsWith("cnpj")
                     && !s.toLowerCase().contains("cpf")
                     && !s.toLowerCase().contains("consumidor")) {
-                ocrResponseDTO.setCnpjResponseDTO(cnpjService.consult(s.substring(5)));
+                ocrResponseDTO.setCnpjResponseDTO(cnpjService.consult(s.substring(5, 24)));
             }
             if (s.toLowerCase().startsWith("xx") && s.toLowerCase().endsWith("xx")) {
                 String value = s.toLowerCase().replace("x", "").replace(",", ".");
