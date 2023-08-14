@@ -2,7 +2,7 @@ package com.fiap.bytesquad.notaqui.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fiap.bytesquad.notaqui.model.dto.request.OCRRequestDTO;
-import com.fiap.bytesquad.notaqui.model.dto.response.cnpja.CNPJResponseDTO;
+import com.fiap.bytesquad.notaqui.model.dto.response.OCRResponseDTO;
 import com.fiap.bytesquad.notaqui.service.OCRService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class OCRController {
     @Autowired private OCRService service;
 
     @PostMapping("/identificar")
-    public ResponseEntity<CNPJResponseDTO> identify(@RequestBody OCRRequestDTO requestDTO) throws JsonProcessingException {
+    public ResponseEntity<OCRResponseDTO> identify(@RequestBody OCRRequestDTO requestDTO) throws JsonProcessingException {
         log.info("|| Iniciando ocrController - identificar conteúdo");
 
         return new ResponseEntity<>(service.identify(requestDTO), HttpStatus.OK);

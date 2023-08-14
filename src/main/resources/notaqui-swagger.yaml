@@ -43,7 +43,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CNPJResponseDTO'
+                $ref: '#/components/schemas/OCRResponseDTO'
         '400':
           description: Bad Request
         '404':
@@ -58,6 +58,13 @@ components:
         conteudo:
           type: string
           example: 'conteudo em base 64'
+    OCRResponseDTO:
+      type: object
+      properties:
+        valor:
+          type: BigDecimal
+        infoPj:
+          $ref: '#/components/schemas/CNPJResponseDTO'
     CNPJResponseDTO:
       type: object
       properties:
