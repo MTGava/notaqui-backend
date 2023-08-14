@@ -57,6 +57,6 @@ public class CNPJServiceImpl implements CNPJService {
     }
 
     private String formatCNPJ(String cnpj) {
-        return cnpj.replace(".", "").replace("/", "").replace("-", "");
+        return cnpj.replace(".", "").replace("/", "").replace("-", "").replace(" ", "");
     }
 }
