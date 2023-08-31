@@ -23,6 +23,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @Slf4j
@@ -82,6 +84,9 @@ public class OCRServiceImpl implements OCRService {
     }
 
     private OCRResponseDTO consultBill(String content) {
+        String cnpjPattern = "\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}";
+        Pattern pattern = Pattern.compile(cnpjPattern);
+
         List<String> strings = List.of(content.split("\n"));
         OCRResponseDTO ocrResponseDTO = new OCRResponseDTO();
         CNPJResponseDTO cnpjResponseDTO = CNPJResponseDTO.builder()
@@ -94,10 +99,10 @@ public class OCRServiceImpl implements OCRService {
         ocrResponseDTO.setValue(new BigDecimal(0));
         strings.forEach(s ->
         {
-            if (s.toLowerCase().startsWith("cnpj")
-                    && !s.toLowerCase().contains("cpf")
-                    && !s.toLowerCase().contains("consumidor")) {
-                ocrResponseDTO.setCnpjResponseDTO(cnpjService.consult(s.substring(5, 24)));
+            Matcher matcher = pattern.matcher(s);
+            if (matcher.find()) {
+                String cnpj = matcher.group();
+                ocrResponseDTO.setCnpjResponseDTO(cnpjService.consult(cnpj));
             }
             if (s.toLowerCase().startsWith("xx") && s.toLowerCase().endsWith("xx")) {
                 String value = s.toLowerCase().replace("x", "").replace(",", ".");
