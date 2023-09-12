@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.math.BigDecimal;
+import java.sql.Date;
 
 @Builder
 @Getter
@@ -33,6 +34,9 @@ public class Bill {
     @Column(name = "cnpj", nullable = false)
     private String cnpj;
 
+    @Column(name = "titulo", nullable = false)
+    private String title;
+
     @Column(name = "valor", nullable = false)
     private BigDecimal value;
 
@@ -44,6 +48,9 @@ public class Bill {
 
     @Column(name = "extensao", nullable = true)
     private String extension;
+
+    @Column(name = "dt_registro", nullable = false)
+    private Date date;
 
     @ManyToOne
     @JoinColumn(name = "matricula", nullable = false)

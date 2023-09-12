@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Builder
 @Getter
@@ -26,6 +27,11 @@ public class BillDTO implements Serializable {
     @NotNull(message = "CNPJ precisa ser preenchido!")
     @JsonProperty("cnpj")
     private String cnpj;
+
+    @JsonProperty("titulo")
+    @Size(max = 10, message = "Limite máximo de caracteres ultrapassado")
+    @NotNull(message = "Título precisa ser preenchida!")
+    private String title;
 
     @JsonProperty("valor")
     @NotNull(message = "Valor precisa ser preenchido!")
@@ -44,15 +50,20 @@ public class BillDTO implements Serializable {
     @JsonProperty("anexo")
     private AttatchmentDTO attatchment;
 
+    @JsonProperty(value = "dt_registro", required = false)
+    private Date date;
+
     public BillDTO(Bill bill) {
         AttatchmentDTO attatchmentDTO = new AttatchmentDTO();
         attatchmentDTO.setArchive(bill.getArchive());
         attatchmentDTO.setExtension(bill.getExtension());
 
         this.cnpj = bill.getCnpj();
+        this.title = bill.getTitle();
         this.value = bill.getValue();
         this.accessKey = bill.getAccessKey();
         this.attatchment = attatchmentDTO;
         this.login = bill.getUser().getLogin();
+        this.date = bill.getDate();
     }
 }

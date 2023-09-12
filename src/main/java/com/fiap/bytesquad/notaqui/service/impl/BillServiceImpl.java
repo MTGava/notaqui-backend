@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,11 +31,13 @@ public class BillServiceImpl implements BillService {
     private Bill newBill(BillDTO dto) {
         Bill bill = new Bill();
         bill.setCnpj(dto.getCnpj());
+        bill.setTitle(dto.getTitle());
         bill.setValue(dto.getValue());
         bill.setAccessKey(dto.getAccessKey());
         bill.setArchive(dto.getAttatchment() != null ? dto.getAttatchment().getArchive() : null);
         bill.setExtension(dto.getAttatchment() != null ? dto.getAttatchment().getExtension() : null);
         bill.setUser(userService.findByLogin(dto.getLogin()));
+        bill.setDate(new Date(System.currentTimeMillis()));
         return bill;
     }
 
