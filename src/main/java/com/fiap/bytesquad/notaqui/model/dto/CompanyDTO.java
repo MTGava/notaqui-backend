@@ -2,6 +2,7 @@ package com.fiap.bytesquad.notaqui.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fiap.bytesquad.notaqui.model.Company;
+import com.fiap.bytesquad.notaqui.model.dto.response.cnpja.CNPJResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -48,5 +49,12 @@ public class CompanyDTO implements Serializable {
         this.corporateName = company.getCorporateName();
         this.legalNature = company.getLegalNature();
         this.corporateType = company.getCorporateType();
+    }
+
+    public CompanyDTO(CNPJResponseDTO responseDTO) {
+        this.cnpj = responseDTO.getCnpj();
+        this.corporateName = responseDTO.getCorporateName();
+        this.corporateType = responseDTO.getCorporateType();
+        this.legalNature = responseDTO.getLegalNature();
     }
 }
