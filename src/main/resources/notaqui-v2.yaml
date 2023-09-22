@@ -256,7 +256,7 @@ components:
           example: 'Pedagio'
         dataRegistro:
           type: string
-          example: '2023-09-09'
+          example: '09/09/2023'
         anexo:
             $ref: '#/components/schemas/AttatchmentDTO'
     AttatchmentDTO:

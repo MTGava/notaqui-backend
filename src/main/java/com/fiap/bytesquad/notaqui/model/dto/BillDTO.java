@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.text.SimpleDateFormat;
 
 @Builder
 @Getter
@@ -46,7 +46,7 @@ public class BillDTO implements Serializable {
     private AttatchmentDTO attatchment;
 
     @JsonProperty(value = "dataRegistro", required = false)
-    private Date date;
+    private String date;
 
     public BillDTO(Bill bill) {
         AttatchmentDTO attatchmentDTO = new AttatchmentDTO();
@@ -58,6 +58,6 @@ public class BillDTO implements Serializable {
         this.value = bill.getValue();
         this.attatchment = attatchmentDTO;
         this.login = bill.getUser().getLogin();
-        this.date = bill.getDate();
+        this.date = new SimpleDateFormat("dd/MM/yyyy").format(bill.getDate());
     }
 }

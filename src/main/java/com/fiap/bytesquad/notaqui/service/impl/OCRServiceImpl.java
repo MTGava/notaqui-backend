@@ -89,8 +89,6 @@ public class OCRServiceImpl implements OCRService {
 
         List<BigDecimal> valuesBill = new ArrayList<>();
 
-
-
         String cnpjPattern = "\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}";
         String cnpjPattern2 = "CNPJ:\\d{14}";
         String valueOnePattern = "\\d{1},\\d{2}";

@@ -9,8 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,6 +30,14 @@ public class BillServiceImpl implements BillService {
     }
 
     private Bill newBill(BillDTO dto) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date registryDate = new Date(System.currentTimeMillis());
+        try {
+            registryDate = simpleDateFormat.parse(dto.getDate());
+        } catch (Exception e) {
+            log.info("|| Não foi possível parsear a data, gravando como data local.");
+        }
+
         Bill bill = new Bill();
         bill.setCnpj(dto.getCnpj());
         bill.setTitle(dto.getTitle());
@@ -36,7 +45,7 @@ public class BillServiceImpl implements BillService {
         bill.setArchive(dto.getAttatchment() != null ? dto.getAttatchment().getArchive() : null);
         bill.setExtension(dto.getAttatchment() != null ? dto.getAttatchment().getExtension() : null);
         bill.setUser(userService.findByLogin(dto.getLogin()));
-        bill.setDate(new Date(System.currentTimeMillis()));
+        bill.setDate(registryDate);
         return bill;
     }
 
