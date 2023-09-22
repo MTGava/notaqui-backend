@@ -248,16 +248,13 @@ components:
         valor:
           type: BigDecimal
           example: 99.99
-        chaveAcesso:
-          type: string
-          example: '0123456789'
         matricula:
           type: string
           example: 'rm89999'
         titulo:
           type: string
           example: 'Pedagio'
-        dt_registro:
+        dataRegistro:
           type: string
           example: '2023-09-09'
         anexo:

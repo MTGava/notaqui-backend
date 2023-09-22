@@ -37,11 +37,6 @@ public class BillDTO implements Serializable {
     @NotNull(message = "Valor precisa ser preenchido!")
     private BigDecimal value;
 
-    @NotNull(message = "Chave de acesso precisa ser preenchida!")
-    @JsonProperty("chaveAcesso")
-    private String accessKey;
-
-
     @Size(max = 10, message = "Limite máximo de caracteres ultrapassado")
     @NotNull(message = "Matrícula precisa ser preenchida!")
     @JsonProperty("matricula")
@@ -50,7 +45,7 @@ public class BillDTO implements Serializable {
     @JsonProperty("anexo")
     private AttatchmentDTO attatchment;
 
-    @JsonProperty(value = "dt_registro", required = false)
+    @JsonProperty(value = "dataRegistro", required = false)
     private Date date;
 
     public BillDTO(Bill bill) {
@@ -61,7 +56,6 @@ public class BillDTO implements Serializable {
         this.cnpj = bill.getCnpj();
         this.title = bill.getTitle();
         this.value = bill.getValue();
-        this.accessKey = bill.getAccessKey();
         this.attatchment = attatchmentDTO;
         this.login = bill.getUser().getLogin();
         this.date = bill.getDate();

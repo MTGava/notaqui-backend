@@ -40,9 +40,6 @@ public class Bill {
     @Column(name = "valor", nullable = false)
     private BigDecimal value;
 
-    @Column(name = "chave", nullable = false)
-    private String accessKey;
-
     @Column(name = "arquivo", nullable = true)
     private String archive;
 

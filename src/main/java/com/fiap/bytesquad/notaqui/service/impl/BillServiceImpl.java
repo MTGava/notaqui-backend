@@ -33,7 +33,6 @@ public class BillServiceImpl implements BillService {
         bill.setCnpj(dto.getCnpj());
         bill.setTitle(dto.getTitle());
         bill.setValue(dto.getValue());
-        bill.setAccessKey(dto.getAccessKey());
         bill.setArchive(dto.getAttatchment() != null ? dto.getAttatchment().getArchive() : null);
         bill.setExtension(dto.getAttatchment() != null ? dto.getAttatchment().getExtension() : null);
         bill.setUser(userService.findByLogin(dto.getLogin()));
