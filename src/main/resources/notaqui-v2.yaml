@@ -1,0 +1,300 @@
+openapi: 3.0.3
+info:
+  title: Swagger Notaqui - OpenAPI 3.0
+  description: |-
+    
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: matheus.gava3@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://notaqui-backend-0b13dda23bf4.herokuapp.com/notaqui/api/v1
+tags:
+  - name: ocr
+    description: Uso da API Cloud da google
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /usuarios/cadastrar:
+    post:
+      tags:
+        - usuarios
+      summary: cadastrar usuario
+      description: cadastrar usuario
+      operationId: postUser
+      requestBody:
+        description: cadastrar usuarios via requisicao
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserDTO'
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /usuarios/buscar:
+    get:
+      tags:
+        - usuarios
+      summary: listar usuarios
+      description: listar usuarios
+      operationId: listarUsuarios
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserDTO'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error 
+  /usuarios/buscar/{id}:
+    get:
+      tags:
+        - usuarios
+      summary: listar usuarios por id
+      description: listar usuarios por id
+      operationId: listarUsuariosById
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error  
+  /ocr/identificar:
+    post:
+      tags:
+        - ocr
+      summary: identificar conteúdo
+      description: identificar conteúdo
+      operationId: postOcr
+      requestBody:
+        description: identificar conteúdo da imagem via base64
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OCRRequestDTO'
+    
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OCRResponseDTO'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /compras/cadastrar:
+    post:
+      tags:
+        - compras
+      summary: cadastrar compra
+      description: cadastrar compra
+      operationId: cadastarCompra 
+      requestBody:
+        description: Cadastrar compra via requisição
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BillDTO'
+    
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillDTO'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /compras/buscar:
+    get:
+      tags:
+        - compras
+      summary: listar compras
+      description: listar compras
+      operationId: listarCompras
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BillDTO'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /empresas/dados/{cnpj}:
+    get:
+      tags:
+        - empresas
+      summary: consultar dados empresa por cnpj
+      description: consultar dados empresa por cnpj
+      operationId: getDadosEmpresaByCnpj
+      parameters:
+        - $ref: '#/components/parameters/CompanyCnpj'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyDTO'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error  
+components:
+  parameters:
+    UserId:
+      name: id
+      in: path
+      example: 'rm89999'
+      description: 'matricula usuario'
+      required: true
+      schema:
+        type: string
+    CompanyCnpj:
+      name: cnpj
+      in: path
+      example: '11.319.5260001-55'
+      description: 'cnpj fiap'
+      required: true
+      schema:
+        type: string
+  schemas:
+    OCRRequestDTO:
+      type: object
+      properties:
+        conteudo:
+          type: string
+          example: 'conteudo em base 64'
+    OCRResponseDTO:
+      type: object
+      properties:
+        valor:
+          type: BigDecimal
+        infoPj:
+          $ref: '#/components/schemas/CNPJResponseDTO'
+    CNPJResponseDTO:
+      type: object
+      properties:
+        cnpj:
+          type: string
+          example: '01.234.567/8901-23'
+        razaoSocial:
+          type: string
+          example: 'BYTESQUAD S/A'
+        naturezaJuridica:
+          type: string
+          example: 'SOCIEDADE ANONIMA'
+        tipoEmpresa:
+          type: string
+          example: 'ESTUDANTES AMIGOS'
+    BillDTO:
+      type: object
+      properties:
+        cnpj:
+          type: string
+          example: '11.319.526/0001-55'
+        valor:
+          type: BigDecimal
+          example: 99.99
+        chaveAcesso:
+          type: string
+          example: '0123456789'
+        matricula:
+          type: string
+          example: 'rm89999'
+        titulo:
+          type: string
+          example: 'Pedagio'
+        dt_registro:
+          type: string
+          example: '2023-09-09'
+        anexo:
+            $ref: '#/components/schemas/AttatchmentDTO'
+    AttatchmentDTO:
+      type: object
+      properties:
+        conteudo:
+          type: string
+          example: 'conteudo em base64 da imagem'
+        extensao:
+          type: string
+          example: 'extensao da imagem (png, jpeg, jpg)'
+    UserDTO:
+      type: object
+      properties:
+        matricula:
+          type: string
+          example: 'rm89999'
+        cargo:
+          type: string
+          example: 'Developer'
+        nome:
+          type: string
+          example: 'João'
+    CompanyDTO:
+      type: object
+      properties:
+        cnpj:
+          type: string
+          example: '12.345.6789101-12'
+        razaoSocial:
+          type: string
+          example: 'ByteSquad S.A.'
+        naturezaJuridica:
+          type: string
+          example: 'Sociedade Anônima Fechada'
+        tipoEmpresa:
+          type: string
+          example: 'Software Development'

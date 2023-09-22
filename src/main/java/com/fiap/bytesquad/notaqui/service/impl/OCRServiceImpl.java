@@ -42,6 +42,8 @@ public class OCRServiceImpl implements OCRService {
     @Value("${notaqui.backing-services.google-cloud.api-key}")
     private String apiKey;
 
+    private Matcher matcher;
+
     @Override
     public OCRResponseDTO identify(OCRRequestDTO dto) throws JsonProcessingException {
         log.info("|| Iniciando ocrService - identificar conteúdo");
@@ -84,8 +86,24 @@ public class OCRServiceImpl implements OCRService {
     }
 
     private OCRResponseDTO consultBill(String content) {
+
+        List<BigDecimal> valuesBill = new ArrayList<>();
+
+
+
         String cnpjPattern = "\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}";
-        Pattern pattern = Pattern.compile(cnpjPattern);
+        String cnpjPattern2 = "CNPJ:\\d{14}";
+        String valueOnePattern = "\\d{1},\\d{2}";
+        String valueTwoPattern = "\\d{2},\\d{2}";
+        String valueThreePattern = "\\d{3},\\d{2}";
+        String valueFourPattern = "\\d{4},\\d{2}";
+
+        Pattern patternCnpj = Pattern.compile(cnpjPattern);
+        Pattern patternCnpj2 = Pattern.compile(cnpjPattern2);
+        Pattern patternValueOne = Pattern.compile(valueOnePattern);
+        Pattern patternValueTwo = Pattern.compile(valueTwoPattern);
+        Pattern patternValueThree = Pattern.compile(valueThreePattern);
+        Pattern patternValueFour = Pattern.compile(valueFourPattern);
 
         List<String> strings = List.of(content.split("\n"));
         OCRResponseDTO ocrResponseDTO = new OCRResponseDTO();
@@ -99,21 +117,63 @@ public class OCRServiceImpl implements OCRService {
         ocrResponseDTO.setValue(new BigDecimal(0));
         strings.forEach(s ->
         {
-            Matcher matcher = pattern.matcher(s);
+            Boolean hasCnpj = Boolean.FALSE;
+            matcher = patternCnpj.matcher(s);
             if (matcher.find()) {
                 String cnpj = matcher.group();
+                hasCnpj = Boolean.TRUE;
                 ocrResponseDTO.setCnpjResponseDTO(cnpjService.consult(cnpj));
             }
-            if (s.toLowerCase().startsWith("xx") && s.toLowerCase().endsWith("xx")) {
-                String value = s.toLowerCase().replace("x", "").replace(",", ".");
-                try {
-                    ocrResponseDTO.setValue(new BigDecimal(value));
-                } catch (Exception e) {
-                    log.info("|| Nao foi possivel settar o valor: ", e.getMessage());
-                    ocrResponseDTO.setValue(new BigDecimal(0));
+
+            if (!hasCnpj) {
+                matcher = patternCnpj2.matcher(s);
+                if (matcher.find()) {
+                    String cnpj = matcher.group().substring(5);
+                    hasCnpj = Boolean.TRUE;
+                    ocrResponseDTO.setCnpjResponseDTO(cnpjService.consult(cnpj));
                 }
             }
+
+            matcher = patternValueOne.matcher(s);
+
+            if (matcher.find()) {
+                BigDecimal value = new BigDecimal(matcher.group().replace(",", "."));
+                valuesBill.add(value);
+            }
+
+            matcher = patternValueTwo.matcher(s);
+
+            if (matcher.find()) {
+                BigDecimal value = new BigDecimal(matcher.group().replace(",", "."));
+                valuesBill.add(value);
+            }
+
+            matcher = patternValueThree.matcher(s);
+
+            if (matcher.find()) {
+                BigDecimal value = new BigDecimal(matcher.group().replace(",", "."));
+                valuesBill.add(value);
+            }
+
+            matcher = patternValueFour.matcher(s);
+
+            if (matcher.find()) {
+                BigDecimal value = new BigDecimal(matcher.group().replace(",", "."));
+                valuesBill.add(value);
+            }
+
+//            if (s.toLowerCase().startsWith("xx") && s.toLowerCase().endsWith("xx")) {
+//                String value = s.toLowerCase().replace("x", "").replace(",", ".");
+//                try {
+//                    ocrResponseDTO.setValue(new BigDecimal(value));
+//                } catch (Exception e) {
+//                    log.info("|| Nao foi possivel settar o valor: ", e.getMessage());
+//                    ocrResponseDTO.setValue(new BigDecimal(0));
+//                }
+//            }
         });
+
+        ocrResponseDTO.setValue(valuesBill.stream().reduce(BigDecimal::max).orElse(new BigDecimal(0)));
         return ocrResponseDTO;
     }
 }
