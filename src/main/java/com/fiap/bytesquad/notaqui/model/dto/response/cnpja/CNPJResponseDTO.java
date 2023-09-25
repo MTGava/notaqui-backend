@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Builder
@@ -21,15 +22,19 @@ import java.io.Serializable;
 public class CNPJResponseDTO implements Serializable {
     private static final long serialVersionUID = -1L;
 
+    @NotNull(message = "CNPJ precisa ser preenchido!")
     @JsonProperty("cnpj")
     private String cnpj;
 
+    @NotNull(message = "Razao Social precisa ser preenchido!")
     @JsonProperty("razaoSocial")
     private String corporateName;
 
+    @NotNull(message = "Natureza Juridica precisa ser preenchido!")
     @JsonProperty("naturezaJuridica")
     private String legalNature;
 
+    @NotNull(message = "Tipo de empresa precisa ser preenchido!")
     @JsonProperty("tipoEmpresa")
     private String corporateType;
 }

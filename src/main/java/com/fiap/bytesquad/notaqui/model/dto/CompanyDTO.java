@@ -22,7 +22,6 @@ import java.io.Serializable;
 public class CompanyDTO implements Serializable {
     private static final long serialVersionUID = -1L;
 
-    @CNPJ
     @Size(max = 20, message = "Limite máximo de caracteres ultrapassado")
     @NotNull(message = "CNPJ precisa ser preenchido!")
     @JsonProperty(value = "cnpj")

@@ -31,9 +31,6 @@ public class Bill {
     @Column(name = "id_conta", nullable = false)
     private Integer id;
 
-    @Column(name = "cnpj", nullable = false)
-    private String cnpj;
-
     @Column(name = "titulo", nullable = false)
     private String title;
 
@@ -52,4 +49,8 @@ public class Bill {
     @ManyToOne
     @JoinColumn(name = "matricula", nullable = false)
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "cnpj", nullable = false)
+    private Company company;
 }

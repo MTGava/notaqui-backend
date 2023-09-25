@@ -1,9 +1,12 @@
 package com.fiap.bytesquad.notaqui.service.impl;
 
 import com.fiap.bytesquad.notaqui.model.Bill;
+import com.fiap.bytesquad.notaqui.model.Company;
 import com.fiap.bytesquad.notaqui.model.dto.BillDTO;
+import com.fiap.bytesquad.notaqui.model.dto.CompanyDTO;
 import com.fiap.bytesquad.notaqui.repository.BillRepository;
 import com.fiap.bytesquad.notaqui.service.BillService;
+import com.fiap.bytesquad.notaqui.service.CompanyService;
 import com.fiap.bytesquad.notaqui.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,8 @@ public class BillServiceImpl implements BillService {
 
     @Autowired private BillRepository repository;
     @Autowired private UserService userService;
+
+    @Autowired private CompanyService companyService;
 
     @Override
     public BillDTO save(BillDTO dto) {
@@ -38,8 +43,11 @@ public class BillServiceImpl implements BillService {
             log.info("|| Não foi possível parsear a data, gravando como data local.");
         }
 
+        log.info("|| Cadastrando empresa: {}...", dto.getInfoPj().getCorporateType());
+        CompanyDTO company = companyService.save(dto.getInfoPj());
+
         Bill bill = new Bill();
-        bill.setCnpj(dto.getCnpj());
+        bill.setCompany(companyService.findByCnpj(company.getCnpj()));
         bill.setTitle(dto.getTitle());
         bill.setValue(dto.getValue());
         bill.setArchive(dto.getAttatchment() != null ? dto.getAttatchment().getArchive() : null);
@@ -48,6 +56,7 @@ public class BillServiceImpl implements BillService {
         bill.setDate(registryDate);
         return bill;
     }
+
 
     @Override
     public List<BillDTO> findAll() {

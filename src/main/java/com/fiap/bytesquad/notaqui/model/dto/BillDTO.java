@@ -1,7 +1,9 @@
 package com.fiap.bytesquad.notaqui.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fiap.bytesquad.notaqui.model.Bill;
+import com.fiap.bytesquad.notaqui.model.dto.response.cnpja.CNPJResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,10 +25,9 @@ import java.text.SimpleDateFormat;
 public class BillDTO implements Serializable {
     private static final long serialVersionUID = -1L;
 
-    @CNPJ
-    @NotNull(message = "CNPJ precisa ser preenchido!")
-    @JsonProperty("cnpj")
-    private String cnpj;
+    @NotNull(message = "InfoPj precisa ser preenchido!")
+    @JsonProperty("infoPj")
+    private CompanyDTO infoPj;
 
     @JsonProperty("titulo")
     @Size(max = 10, message = "Limite máximo de caracteres ultrapassado")
@@ -53,7 +54,9 @@ public class BillDTO implements Serializable {
         attatchmentDTO.setArchive(bill.getArchive());
         attatchmentDTO.setExtension(bill.getExtension());
 
-        this.cnpj = bill.getCnpj();
+        CompanyDTO companyDTO = new CompanyDTO(bill.getCompany());
+
+        this.infoPj = companyDTO;
         this.title = bill.getTitle();
         this.value = bill.getValue();
         this.attatchment = attatchmentDTO;

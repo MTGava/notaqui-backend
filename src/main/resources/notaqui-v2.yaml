@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Swagger Notaqui - OpenAPI 3.0
   description: |-
-    
+
   termsOfService: http://swagger.io/terms/
   contact:
     email: matheus.gava3@gmail.com
@@ -69,7 +69,7 @@ paths:
         '404':
           description: Not Found
         '500':
-          description: Internal Server Error 
+          description: Internal Server Error
   /usuarios/buscar/{id}:
     get:
       tags:
@@ -91,7 +91,7 @@ paths:
         '404':
           description: Not Found
         '500':
-          description: Internal Server Error  
+          description: Internal Server Error
   /ocr/identificar:
     post:
       tags:
@@ -105,7 +105,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/OCRRequestDTO'
-    
+
         required: true
       responses:
         '200':
@@ -126,14 +126,14 @@ paths:
         - compras
       summary: cadastrar compra
       description: cadastrar compra
-      operationId: cadastarCompra 
+      operationId: cadastarCompra
       requestBody:
         description: Cadastrar compra via requisição
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/BillDTO'
-    
+
         required: true
       responses:
         '201':
@@ -191,7 +191,7 @@ paths:
         '404':
           description: Not Found
         '500':
-          description: Internal Server Error  
+          description: Internal Server Error
 components:
   parameters:
     UserId:
@@ -242,9 +242,9 @@ components:
     BillDTO:
       type: object
       properties:
-        cnpj:
-          type: string
-          example: '11.319.526/0001-55'
+        infoPj:
+          type: object
+          $ref: '#/components/schemas/CompanyDTO'
         valor:
           type: BigDecimal
           example: 99.99
@@ -258,7 +258,7 @@ components:
           type: string
           example: '09/09/2023'
         anexo:
-            $ref: '#/components/schemas/AttatchmentDTO'
+          $ref: '#/components/schemas/AttatchmentDTO'
     AttatchmentDTO:
       type: object
       properties:

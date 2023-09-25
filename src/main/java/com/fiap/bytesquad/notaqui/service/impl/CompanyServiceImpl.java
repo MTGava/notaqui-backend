@@ -39,16 +39,20 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     public Company findByCnpj(String cnpj) {
         log.info("|| Iniciando companyService - buscar usuário por matrícula");
-        Optional<Company> company = repository.findById(cnpj);
+        Optional<Company> company = repository.findById(formatCNPJ(cnpj));
         return company.orElseThrow(() -> new ObjectNotFoundException("Empresa com o CNPJ: " + company + " não encontrada!"));
     }
 
     private Company newCompany(CompanyDTO dto) {
         Company company = new Company();
-        company.setCnpj(dto.getCnpj());
+        company.setCnpj(formatCNPJ(dto.getCnpj()));
         company.setLegalNature(dto.getLegalNature());
         company.setCorporateName(dto.getCorporateName());
         company.setCorporateType(dto.getCorporateType());
         return company;
+    }
+
+    private String formatCNPJ(String cnpj) {
+        return cnpj.replace(".", "").replace("/", "").replace("-", "").replace(" ", "");
     }
 }
