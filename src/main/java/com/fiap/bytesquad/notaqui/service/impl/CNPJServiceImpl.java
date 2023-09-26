@@ -49,7 +49,7 @@ public class CNPJServiceImpl implements CNPJService {
         CNPJaResponseDTO responseDTO = response.getBody();
 
         return CNPJResponseDTO.builder()
-                .cnpj(cnpj.replace(" ", ""))
+                .cnpj(formatCNPJ(cnpj))
                 .corporateName(responseDTO != null ? responseDTO.getCompany().getName() : "")
                 .legalNature(responseDTO != null ? responseDTO.getCompany().getNature().getText() : "")
                 .corporateType(responseDTO != null ? responseDTO.getMainActivity().getText() : "")
