@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -37,9 +38,11 @@ public class Bill {
     @Column(name = "valor", nullable = false)
     private BigDecimal value;
 
+    @Transient
     @Column(name = "arquivo", nullable = true)
     private String archive;
 
+    @Transient
     @Column(name = "extensao", nullable = true)
     private String extension;
 
