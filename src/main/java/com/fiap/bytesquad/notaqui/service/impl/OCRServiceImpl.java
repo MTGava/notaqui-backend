@@ -96,7 +96,7 @@ public class OCRServiceImpl implements OCRService {
         String valueOnePattern = "\\d{1},\\d{2}";
         String valueTwoPattern = "\\d{2},\\d{2}";
         String valueThreePattern = "\\d{3},\\d{2}";
-        String valueFourPattern = "\\d{4},\\d{2}";
+        String valueFourPattern = "\\d{1}\\.\\d{3},\\d{2}";
 
         Pattern patternCnpj = Pattern.compile(cnpjPattern);
         Pattern patternCnpj2 = Pattern.compile(cnpjPattern2);
@@ -117,39 +117,40 @@ public class OCRServiceImpl implements OCRService {
                 .build();
         ocrResponseDTO.setCnpjResponseDTO(cnpjResponseDTO);
         ocrResponseDTO.setValue(new BigDecimal(0));
+        final Boolean[] hasCnpj = {Boolean.FALSE};
         strings.forEach(s ->
         {
-            Boolean hasCnpj = Boolean.FALSE;
+
             matcher = patternCnpj.matcher(s);
-            if (matcher.find()) {
+            if (matcher.find() && !hasCnpj[0]) {
                 String cnpj = matcher.group();
-                hasCnpj = Boolean.TRUE;
+                hasCnpj[0] = Boolean.TRUE;
                 ocrResponseDTO.setCnpjResponseDTO(cnpjService.consult(cnpj));
             }
 
-            if (!hasCnpj) {
+            if (!hasCnpj[0]) {
                 matcher = patternCnpj2.matcher(s);
                 if (matcher.find()) {
                     String cnpj = matcher.group().substring(5);
-                    hasCnpj = Boolean.TRUE;
+                    hasCnpj[0] = Boolean.TRUE;
                     ocrResponseDTO.setCnpjResponseDTO(cnpjService.consult(cnpj));
                 }
             }
 
-            if (!hasCnpj) {
+            if (!hasCnpj[0]) {
                 matcher = patternCnpj3.matcher(s);
                 if (matcher.find()) {
                     String cnpj = matcher.group().substring(6);
-                    hasCnpj = Boolean.TRUE;
+                    hasCnpj[0] = Boolean.TRUE;
                     ocrResponseDTO.setCnpjResponseDTO(cnpjService.consult(cnpj));
                 }
             }
 
-            if (!hasCnpj) {
+            if (!hasCnpj[0]) {
                 matcher = patternCnpj4.matcher(s);
                 if (matcher.find()) {
                     String cnpj = matcher.group().substring(5);
-                    hasCnpj = Boolean.TRUE;
+                    hasCnpj[0] = Boolean.TRUE;
                     ocrResponseDTO.setCnpjResponseDTO(cnpjService.consult(cnpj));
                 }
             }
@@ -178,7 +179,7 @@ public class OCRServiceImpl implements OCRService {
             matcher = patternValueFour.matcher(s);
 
             if (matcher.find()) {
-                BigDecimal value = new BigDecimal(matcher.group().replace(",", "."));
+                BigDecimal value = new BigDecimal(matcher.group().replace(".", "").replace(",", "."));
                 valuesBill.add(value);
             }
 

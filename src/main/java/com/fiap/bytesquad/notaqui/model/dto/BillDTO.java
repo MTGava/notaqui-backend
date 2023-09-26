@@ -43,6 +43,7 @@ public class BillDTO implements Serializable {
     @JsonProperty("matricula")
     private String login;
 
+    @JsonIgnore
     @JsonProperty("anexo")
     private AttatchmentDTO attatchment;
 
@@ -50,16 +51,16 @@ public class BillDTO implements Serializable {
     private String date;
 
     public BillDTO(Bill bill) {
-        AttatchmentDTO attatchmentDTO = new AttatchmentDTO();
-        attatchmentDTO.setArchive(bill.getArchive());
-        attatchmentDTO.setExtension(bill.getExtension());
+//        AttatchmentDTO attatchmentDTO = new AttatchmentDTO();
+//        attatchmentDTO.setArchive(bill.getArchive());
+//        attatchmentDTO.setExtension(bill.getExtension());
 
         CompanyDTO companyDTO = new CompanyDTO(bill.getCompany());
 
         this.infoPj = companyDTO;
         this.title = bill.getTitle();
         this.value = bill.getValue();
-        this.attatchment = attatchmentDTO;
+//        this.attatchment = attatchmentDTO;
         this.login = bill.getUser().getLogin();
         this.date = new SimpleDateFormat("dd/MM/yyyy").format(bill.getDate());
     }
