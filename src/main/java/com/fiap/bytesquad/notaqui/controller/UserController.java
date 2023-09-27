@@ -2,6 +2,7 @@ package com.fiap.bytesquad.notaqui.controller;
 
 import com.fiap.bytesquad.notaqui.model.dto.UserDTO;
 import com.fiap.bytesquad.notaqui.service.UserService;
+import com.fiap.bytesquad.notaqui.util.LogUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ public class UserController {
     @PostMapping("/cadastrar")
     public ResponseEntity<UserDTO> save(@RequestBody @Valid UserDTO userDTO) {
         log.info("|| Iniciando userController - cadastrar usuário");
+        log.info("|| RequestDTO: {}", LogUtil.logJson(userDTO));
         return new ResponseEntity<>(service.save(userDTO), HttpStatus.CREATED);
     }
 

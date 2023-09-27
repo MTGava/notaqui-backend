@@ -3,6 +3,7 @@ package com.fiap.bytesquad.notaqui.controller;
 import com.fiap.bytesquad.notaqui.model.dto.CompanyDTO;
 import com.fiap.bytesquad.notaqui.service.CNPJService;
 import com.fiap.bytesquad.notaqui.service.CompanyService;
+import com.fiap.bytesquad.notaqui.util.LogUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,7 @@ public class CompanyController {
     @PostMapping("/cadastrar")
     public ResponseEntity<CompanyDTO> save(@RequestBody @Valid CompanyDTO companyDTO) {
         log.info("|| Iniciando companyController - cadastrar empresa");
+        log.info("|| RequestDTO: {}", LogUtil.logJson(companyDTO));
         return new ResponseEntity<>(service.save(companyDTO), HttpStatus.CREATED);
     }
 

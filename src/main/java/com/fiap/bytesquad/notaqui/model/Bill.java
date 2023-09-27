@@ -38,14 +38,6 @@ public class Bill {
     @Column(name = "valor", nullable = false)
     private BigDecimal value;
 
-    @Transient
-    @Column(name = "arquivo", nullable = true)
-    private String archive;
-
-    @Transient
-    @Column(name = "extensao", nullable = true)
-    private String extension;
-
     @Column(name = "dt_registro", nullable = false)
     private Date date;
 

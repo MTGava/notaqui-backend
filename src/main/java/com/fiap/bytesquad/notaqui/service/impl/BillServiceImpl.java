@@ -1,10 +1,13 @@
 package com.fiap.bytesquad.notaqui.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiap.bytesquad.notaqui.model.Bill;
 import com.fiap.bytesquad.notaqui.model.Company;
+import com.fiap.bytesquad.notaqui.model.dto.AttatchmentDTO;
 import com.fiap.bytesquad.notaqui.model.dto.BillDTO;
 import com.fiap.bytesquad.notaqui.model.dto.CompanyDTO;
 import com.fiap.bytesquad.notaqui.repository.BillRepository;
+import com.fiap.bytesquad.notaqui.service.AttatchmentService;
 import com.fiap.bytesquad.notaqui.service.BillService;
 import com.fiap.bytesquad.notaqui.service.CompanyService;
 import com.fiap.bytesquad.notaqui.service.UserService;
@@ -24,6 +27,8 @@ public class BillServiceImpl implements BillService {
     @Autowired private BillRepository repository;
     @Autowired private UserService userService;
 
+    @Autowired private AttatchmentService attatchmentService;
+
     @Autowired private CompanyService companyService;
 
     @Override
@@ -31,6 +36,11 @@ public class BillServiceImpl implements BillService {
         log.info("|| Iniciando billService - cadastrar compra");
         Bill bill = newBill(dto);
         bill = repository.save(bill);
+
+        log.info("|| Salvando anexo: {}...", dto.getAttatchment().getName());
+        attatchmentService.save(bill.getId(), dto.getAttatchment());
+        log.info("|| Anexo: {} salvo...", dto.getAttatchment().getName());
+
         return new BillDTO(bill);
     }
 
@@ -50,8 +60,6 @@ public class BillServiceImpl implements BillService {
         bill.setCompany(companyService.findByCnpj(company.getCnpj()));
         bill.setTitle(dto.getTitle());
         bill.setValue(dto.getValue());
-        bill.setArchive(dto.getAttatchment() != null ? dto.getAttatchment().getArchive() : null);
-        bill.setExtension(dto.getAttatchment() != null ? dto.getAttatchment().getExtension() : null);
         bill.setUser(userService.findByLogin(dto.getLogin()));
         bill.setDate(registryDate);
         return bill;

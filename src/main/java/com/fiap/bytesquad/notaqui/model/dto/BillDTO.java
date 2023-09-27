@@ -3,13 +3,11 @@ package com.fiap.bytesquad.notaqui.model.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fiap.bytesquad.notaqui.model.Bill;
-import com.fiap.bytesquad.notaqui.model.dto.response.cnpja.CNPJResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -30,7 +28,7 @@ public class BillDTO implements Serializable {
     private CompanyDTO infoPj;
 
     @JsonProperty("titulo")
-    @Size(max = 10, message = "Limite máximo de caracteres ultrapassado")
+    @Size(max = 50, message = "Limite máximo de caracteres ultrapassado")
     @NotNull(message = "Título precisa ser preenchida!")
     private String title;
 
@@ -38,12 +36,11 @@ public class BillDTO implements Serializable {
     @NotNull(message = "Valor precisa ser preenchido!")
     private BigDecimal value;
 
-    @Size(max = 10, message = "Limite máximo de caracteres ultrapassado")
+    @Size(max = 50, message = "Limite máximo de caracteres ultrapassado")
     @NotNull(message = "Matrícula precisa ser preenchida!")
     @JsonProperty("matricula")
     private String login;
 
-    @JsonIgnore
     @JsonProperty("anexo")
     private AttatchmentDTO attatchment;
 
@@ -51,16 +48,11 @@ public class BillDTO implements Serializable {
     private String date;
 
     public BillDTO(Bill bill) {
-//        AttatchmentDTO attatchmentDTO = new AttatchmentDTO();
-//        attatchmentDTO.setArchive(bill.getArchive());
-//        attatchmentDTO.setExtension(bill.getExtension());
-
         CompanyDTO companyDTO = new CompanyDTO(bill.getCompany());
 
         this.infoPj = companyDTO;
         this.title = bill.getTitle();
         this.value = bill.getValue();
-//        this.attatchment = attatchmentDTO;
         this.login = bill.getUser().getLogin();
         this.date = new SimpleDateFormat("dd/MM/yyyy").format(bill.getDate());
     }

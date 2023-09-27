@@ -1,7 +1,7 @@
 spring:
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     database: oracle
     show-sql: true
 

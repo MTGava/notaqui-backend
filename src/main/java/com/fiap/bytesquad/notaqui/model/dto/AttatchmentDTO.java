@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import java.io.Serializable;
 
 @Builder
@@ -16,6 +17,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class AttatchmentDTO implements Serializable {
     private static final long serialVersionUID = -1L;
+
+    @JsonProperty("idConta")
+    private Integer billId;
+
+    @JsonProperty("nome")
+    private String name;
 
     @JsonProperty("conteudo")
     private String archive;

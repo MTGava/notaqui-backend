@@ -20,13 +20,13 @@ import java.io.Serializable;
 public class UserDTO implements Serializable {
     private static final long serialVersionUID = -1L;
 
-    @Size(max = 10, message = "Limite máximo de caracteres ultrapassado")
+    @Size(max = 50, message = "Limite máximo de caracteres ultrapassado")
     @NotNull(message = "Matrícula precisa ser preenchida!")
     @JsonProperty(value = "matricula")
     private String login;
 
 
-    @Size(max = 25, message = "Limite máximo de caracteres ultrapassado")
+    @Size(max = 50, message = "Limite máximo de caracteres ultrapassado")
     @NotNull(message = "Nome precisa ser preenchido!")
     @JsonProperty(value = "nome")
     private String name;

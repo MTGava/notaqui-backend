@@ -33,7 +33,7 @@ public class CompanyDTO implements Serializable {
     @JsonProperty(value = "razaoSocial")
     private String corporateName;
 
-    @Size(max = 100, message = "Limite máximo de caracteres ultrapassado")
+    @Size(max = 400, message = "Limite máximo de caracteres ultrapassado")
     @NotNull(message = "Natureza jurídica precisa ser preenchida!")
     @JsonProperty("naturezaJuridica")
     private String legalNature;
