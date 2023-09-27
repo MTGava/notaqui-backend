@@ -1,0 +1,26 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database: oracle
+    show-sql: true
+
+notaqui:
+  backing-services:
+    database:
+      url: jdbc:oracle:thin:@oracle.fiap.com.br:1521:orcl
+      driverClassName: oracle.jdbc.driver.OracleDriver
+      username: ${USERNAME}
+      password: ${PASSWORD}
+      max-pool-size: 2
+    google-cloud:
+      url: https://vision.googleapis.com/v1/images:annotate
+      api-key: ${API_KEY}
+    cnpj-ja:
+      url: https://api.cnpja.com/office/
+      token: ${TOKEN}
+
+server:
+  port: 8080
+  servlet:
+    context-path: /notaqui/api/v1

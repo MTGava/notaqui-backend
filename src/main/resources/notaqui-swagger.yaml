@@ -1,0 +1,136 @@
+openapi: 3.0.3
+info:
+  title: Swagger Notaqui - OpenAPI 3.0
+  description: |-
+
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: matheus.gava3@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://notaqui-backend-0b13dda23bf4.herokuapp.com/notaqui/api/v1
+tags:
+  - name: ocr
+    description: Uso da API Cloud da google
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+paths:
+  /ocr/identificar:
+    post:
+      tags:
+        - ocr
+      summary: identificar conteúdo
+      description: identificar conteúdo
+      operationId: postOcr
+      requestBody:
+        description: identificar conteúdo da imagem via base64
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OCRRequestDTO'
+
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OCRResponseDTO'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+  /bill/compras/cadastrar:
+    post:
+      tags:
+        - bill
+      summary: cadastrar compra
+      description: cadastrar compra
+      operationId: cadastarCompra
+      requestBody:
+        description: Cadastrar compra via requisição
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BillDTO'
+
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BillDTO'
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    OCRRequestDTO:
+      type: object
+      properties:
+        conteudo:
+          type: string
+          example: 'conteudo em base 64'
+    OCRResponseDTO:
+      type: object
+      properties:
+        valor:
+          type: BigDecimal
+        infoPj:
+          $ref: '#/components/schemas/CNPJResponseDTO'
+    CNPJResponseDTO:
+      type: object
+      properties:
+        cnpj:
+          type: string
+          example: '01.234.567/8901-23'
+        razaoSocial:
+          type: string
+          example: 'BYTESQUAD S/A'
+        naturezaJuridica:
+          type: string
+          example: 'SOCIEDADE ANONIMA'
+        tipoEmpresa:
+          type: string
+          example: 'ESTUDANTES AMIGOS'
+    BillDTO:
+      type: object
+      properties:
+        cnpj:
+          type: string
+          example: '01.234.567/8901-23'
+        value:
+          type: BigDecimal
+          example: 99.99
+        chaveAcesso:
+          type: string
+          example: '0123456789'
+        matricula:
+          type: string
+          example: 'RM89999'
+        anexo:
+          $ref: '#/components/schemas/AttatchmentDTO'
+    AttatchmentDTO:
+      type: object
+      properties:
+        conteudo:
+          type: string
+          example: 'conteudo em base64 da imagem'
+        extensao:
+          type: string
+          example: 'extensao da imagem (png, jpeg, jpg)'
