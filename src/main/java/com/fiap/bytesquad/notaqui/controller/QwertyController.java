@@ -28,7 +28,7 @@ public class QwertyController {
 
     @Autowired private QwertyService service;
 
-    @PostMapping("/anexar")
+    @PostMapping("/anexo")
     public ResponseEntity<QwertyDTO> create(@RequestBody QwertyDTO requestDTO) {
         return new ResponseEntity<>(service.save(requestDTO), HttpStatus.CREATED);
     }
@@ -38,7 +38,7 @@ public class QwertyController {
         return new ResponseEntity<>(new QwertyDTO(service.findById(id)), HttpStatus.OK);
     }
 
-    @GetMapping("/anexos")
+    @GetMapping("/anexo")
     public ResponseEntity<List<Integer>> findAllIds() {
         return new ResponseEntity<>(service.findAllIds(), HttpStatus.OK);
     }
