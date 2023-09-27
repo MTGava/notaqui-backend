@@ -1,9 +1,6 @@
 package com.fiap.bytesquad.notaqui.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiap.bytesquad.notaqui.model.Bill;
-import com.fiap.bytesquad.notaqui.model.Company;
-import com.fiap.bytesquad.notaqui.model.dto.AttatchmentDTO;
 import com.fiap.bytesquad.notaqui.model.dto.BillDTO;
 import com.fiap.bytesquad.notaqui.model.dto.CompanyDTO;
 import com.fiap.bytesquad.notaqui.repository.BillRepository;
@@ -13,6 +10,7 @@ import com.fiap.bytesquad.notaqui.service.CompanyService;
 import com.fiap.bytesquad.notaqui.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -25,6 +23,7 @@ import java.util.List;
 public class BillServiceImpl implements BillService {
 
     @Autowired private BillRepository repository;
+
     @Autowired private UserService userService;
 
     @Autowired private AttatchmentService attatchmentService;
@@ -69,7 +68,7 @@ public class BillServiceImpl implements BillService {
     @Override
     public List<BillDTO> findAll() {
         log.info("|| Iniciando billService - buscar todas as despesas");
-        List<Bill> bills = repository.findAll();
+        List<Bill> bills = repository.findAll(Sort.by("date").descending());
         List<BillDTO> dtoList = new ArrayList<>();
         bills.forEach(bill -> dtoList.add(new BillDTO(bill)));
         return dtoList;
