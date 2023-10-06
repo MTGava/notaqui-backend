@@ -37,4 +37,12 @@ public class CNPJResponseDTO implements Serializable {
     @NotNull(message = "Tipo de empresa precisa ser preenchido!")
     @JsonProperty("tipoEmpresa")
     private String corporateType;
+
+    @NotNull(message = "Categoria de empresa precisa ser preenchida!")
+    @JsonProperty("categoria")
+    private String category;
+
+    @NotNull(message = "ID Tipo de empresa precisa ser preenchido!")
+    @JsonProperty("idTipoEmpresa")
+    private String corporateTypeId;
 }
