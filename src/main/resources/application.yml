@@ -19,6 +19,8 @@ notaqui:
     cnpj-ja:
       url: https://api.cnpja.com/office/
       token: ${TOKEN}
+    ibge-cnae:
+      url: https://servicodados.ibge.gov.br/api/v2/cnae/divisoes/{divisao}
 
 server:
   port: 8080

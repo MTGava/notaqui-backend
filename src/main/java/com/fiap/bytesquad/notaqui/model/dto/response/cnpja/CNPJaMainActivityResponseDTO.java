@@ -18,5 +18,6 @@ import java.io.Serializable;
 public class CNPJaMainActivityResponseDTO implements Serializable {
     private static final long serialVersionUID = -1L;
 
+    private Integer id;
     private String text;
 }

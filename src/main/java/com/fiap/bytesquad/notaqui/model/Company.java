@@ -37,6 +37,12 @@ public class Company {
     @Column(name = "tipo_empresa")
     private String corporateType;
 
+    @Column(name = "categoria")
+    private String category;
+
+    @Column(name = "id_tipo_empresa")
+    private String corporateTypeId;
+
     @JsonIgnore
     @OneToMany(mappedBy = "company")
     private List<Bill> bills = new ArrayList<>();

@@ -27,7 +27,6 @@ public class CompanyDTO implements Serializable {
     @JsonProperty(value = "cnpj")
     private String cnpj;
 
-
     @Size(max = 100, message = "Limite máximo de caracteres ultrapassado")
     @NotNull(message = "Razão social precisa ser preenchida!")
     @JsonProperty(value = "razaoSocial")
@@ -39,15 +38,27 @@ public class CompanyDTO implements Serializable {
     private String legalNature;
 
     @Size(max = 400, message = "Limite máximo de caracteres ultrapassado")
-    @NotNull(message = "Tipo de empresa precisa ser preenchida!")
+    @NotNull(message = "Tipo de empresa precisa ser preenchido!")
     @JsonProperty("tipoEmpresa")
     private String corporateType;
+
+    @Size(max = 100, message = "Limite máximo de caracteres ultrapassado")
+    @NotNull(message = "Categoria de empresa precisa ser preenchida!")
+    @JsonProperty("categoria")
+    private String category;
+
+    @Size(max = 100, message = "Limite máximo de caracteres ultrapassado")
+    @NotNull(message = "ID Tipo de empresa precisa ser preenchido!")
+    @JsonProperty("idTipoEmpresa")
+    private String corporateTypeId;
 
     public CompanyDTO(Company company) {
         this.cnpj = company.getCnpj();
         this.corporateName = company.getCorporateName();
         this.legalNature = company.getLegalNature();
         this.corporateType = company.getCorporateType();
+        this.category = company.getCategory();
+        this.corporateTypeId = company.getCorporateTypeId();
     }
 
     public CompanyDTO(CNPJResponseDTO responseDTO) {
@@ -55,5 +66,8 @@ public class CompanyDTO implements Serializable {
         this.corporateName = responseDTO.getCorporateName();
         this.corporateType = responseDTO.getCorporateType();
         this.legalNature = responseDTO.getLegalNature();
+        this.corporateTypeId = responseDTO.getCorporateTypeId();
+        this.category = responseDTO.getCategory();
+
     }
 }

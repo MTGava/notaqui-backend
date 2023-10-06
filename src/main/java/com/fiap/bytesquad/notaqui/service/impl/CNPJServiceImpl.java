@@ -1,8 +1,8 @@
 package com.fiap.bytesquad.notaqui.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fiap.bytesquad.notaqui.model.dto.response.cnpja.CNPJResponseDTO;
 import com.fiap.bytesquad.notaqui.model.dto.response.cnpja.CNPJaResponseDTO;
+import com.fiap.bytesquad.notaqui.model.dto.response.ibge.IbgeCnaeResponseDTO;
 import com.fiap.bytesquad.notaqui.service.CNPJService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,10 @@ public class CNPJServiceImpl implements CNPJService {
     @Autowired private RestTemplate restTemplate;
 
     @Value("${notaqui.backing-services.cnpj-ja.url}")
-    private String url;
+    private String cnpjaUrl;
+
+    @Value("${notaqui.backing-services.ibge-cnae.url}")
+    private String ibgeCnae;
 
     @Value("${notaqui.backing-services.cnpj-ja.token}")
     private String token;
@@ -35,7 +38,7 @@ public class CNPJServiceImpl implements CNPJService {
         headers.add("Authorization", token);
         HttpEntity<String> entity = new HttpEntity<>("parameters", headers);
 
-        String urlFinal = url.concat(formatCNPJ(cnpj));
+        String urlFinal = cnpjaUrl.concat(formatCNPJ(cnpj));
         log.info("|| Request URI: {}", urlFinal);
         ResponseEntity<CNPJaResponseDTO> response = new ResponseEntity<>(HttpStatus.OK);
         try {
@@ -53,10 +56,27 @@ public class CNPJServiceImpl implements CNPJService {
                 .corporateName(responseDTO != null ? responseDTO.getCompany().getName() : "")
                 .legalNature(responseDTO != null ? responseDTO.getCompany().getNature().getText() : "")
                 .corporateType(responseDTO != null ? responseDTO.getMainActivity().getText() : "")
+                .corporateTypeId(responseDTO != null ? responseDTO.getMainActivity().getId().toString() : "")
+                .category(responseDTO != null ? consultCnaeByDivision(responseDTO.getMainActivity().getId()) : "")
                 .build();
     }
 
     private String formatCNPJ(String cnpj) {
         return cnpj.replace(".", "").replace("/", "").replace("-", "").replace(" ", "");
+    }
+
+    private String consultCnaeByDivision(Integer division) {
+        String urlFinal = ibgeCnae.replace("{divisao}", division.toString().substring(0, 2));
+
+        ResponseEntity<IbgeCnaeResponseDTO> response = new ResponseEntity<>(HttpStatus.OK);
+        try {
+            log.info("|| Chamando servico CNAE: {}...", urlFinal);
+            response = restTemplate.getForEntity(urlFinal, IbgeCnaeResponseDTO.class);
+            log.info("|| Servico OK HttpStatus: {}", response.getStatusCode().value());
+        } catch (Exception e) {
+            log.error("|| Erro ao chamar o servico CNAE: {}", e.getMessage());
+        }
+
+        return response.getBody().getDescription();
     }
 }

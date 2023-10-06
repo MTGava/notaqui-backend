@@ -96,7 +96,7 @@ public class OCRServiceImpl implements OCRService {
         String valueOnePattern = "\\d{1},\\d{2}";
         String valueTwoPattern = "\\d{2},\\d{2}";
         String valueThreePattern = "\\d{3},\\d{2}";
-        String valueFourPattern = "\\d{1}\\.\\d{3},\\d{2}";
+        String valueFourPattern = "\\d{4},\\d{2}";
 
         Pattern patternCnpj = Pattern.compile(cnpjPattern);
         Pattern patternCnpj2 = Pattern.compile(cnpjPattern2);
