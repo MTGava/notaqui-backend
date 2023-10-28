@@ -49,6 +49,8 @@ public class CompanyServiceImpl implements CompanyService {
         company.setLegalNature(dto.getLegalNature());
         company.setCorporateName(dto.getCorporateName());
         company.setCorporateType(dto.getCorporateType());
+        company.setCategory(dto.getCategory());
+        company.setCorporateTypeId(dto.getCorporateTypeId());
         return company;
     }
 
